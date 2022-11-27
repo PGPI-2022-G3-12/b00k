@@ -5,4 +5,43 @@
     {% for book in bookList %}
 
     {% endfor %}
+
+    <!-- Pagination -->
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          <!-- previous -->
+          {% if pageObj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1">Primera</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ pageObj.previous_page_number }}">{{ pageObj.previous_page_number }}</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1">Primera</a>
+            </li>
+          {% endif %}
+
+          <!-- current -->
+          <li class="page-item">
+                <a class="page-link" href="?page={{ pageObj.number }}">{{ pageObj.number }}</a>
+          </li>
+
+          <!-- next -->
+          {% if pageObj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ pageObj.next_page_number }}">{{ pageObj.next_page_number }}</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ pageObj.paginator.num_pages }}">Última</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1">Última</a>
+            </li>
+          {% endif %}
+        </ul>
+    </nav>
+
 {% endblock  %}

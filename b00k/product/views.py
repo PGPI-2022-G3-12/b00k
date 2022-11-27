@@ -14,6 +14,7 @@ class ProductListView(TemplateView):
         try:
             products = models.BookProduct.objects.filter(title__contains=query)
             context['products'] = json.dumps(products)
+            context['query'] = json.dumps(query)
 
         except:
             raise Http404

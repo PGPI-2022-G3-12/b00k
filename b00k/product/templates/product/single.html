@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+        <h1>[[product.title]]</h1>
+        <h2>[[product.author]]</h2>
+        <h2>[[product.price]]</h2>
+
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Vista previa</th>
+                    <th>Sinopsis</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th><img src="product.image"></th>
+                    <th>[[product.description]]</th>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+{% endblock %}

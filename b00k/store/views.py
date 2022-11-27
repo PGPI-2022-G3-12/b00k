@@ -17,14 +17,35 @@ def index(request):
 
     return render(request, 'index.html', context)
 
-def catalog(request):
-    # Catálogo
+def catalogAll(request):
+    # Catálogo - Todas las categorías
     bookOrder = request.GET.get('orderBy', 'title')
-    nProducts = request.GET.get('nProducts', 1)
+    nProducts = request.GET.get('nProducts', 25)
     pageNumber = request.GET.get('page', 1)
 
     categoryList = Category.objects.order_by('name')
     bookList = Book.objects.order_by(bookOrder)
+    paginator = Paginator(bookList, nProducts)
+    pageObj = paginator.get_page(pageNumber)
+
+    context = {
+        'categoryList': categoryList,
+        'bookList': pageObj,
+        'pageNumber': pageNumber,
+        'nProducts': nProducts,
+        'pageObj': pageObj,
+    }
+
+    return render(request, 'catalog.html', context)
+
+def catalogCategory(request, categoryId):
+    # Catálogo
+    bookOrder = request.GET.get('orderBy', 'title')
+    nProducts = request.GET.get('nProducts', 25)
+    pageNumber = request.GET.get('page', 1)
+
+    categoryList = Category.objects.order_by('name')
+    bookList = Book.objects.order_by(bookOrder).filter(category=categoryId)
     paginator = Paginator(bookList, nProducts)
     pageObj = paginator.get_page(pageNumber)
 

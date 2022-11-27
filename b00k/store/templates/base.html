@@ -61,9 +61,9 @@
                         Libros
                       </a>
                       <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" href="#">Cat1</a></li>
-                        <li><a class="dropdown-item" href="#">Cat2</a></li>
-                        <li><a class="dropdown-item" href="#">Cat3</a></li>
+                      {% for category in categoryList %}
+                            <li><a class="dropdown-item" href="#">{{ category.name }}</a></li>
+                      {% endfor %} 
                       </ul>
                     </li>
                     <li class="nav-item">

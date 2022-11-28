@@ -3,6 +3,7 @@
 
 {% block content %}
     <div class="container-fluid">
+        <!-- Sidebar -->
         <div class="row px-5">
         <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
             <div class="position-sticky pt-3">
@@ -25,6 +26,7 @@
             </div>
         </nav>
 
+        <!-- Results section -->
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 class="h2">Resultados</h1>
@@ -53,20 +55,33 @@
                 </div>
             </div>
 
-
-                {% for book in bookList %}
-                    <div class="row my-4">
-                        <div class="col-sm-1 offset-md-1">
-                            <img class="img-fluid" src="{% static 'book-placeholder.svg' %}" alt="{{ book.title }}" style="width: 80%;">
-                        </div>
-                        <div class="col-sm-9">
-                            <h4>{{ book.title }}</h4>
-                            <h6>{{ book.author }}</h6>
-                            <p>Lorem ipsum</p>
-                        </div>
-                        <div class="col-md-10 offset-md-1"><hr></div>
+            <!-- List books -->
+            {% for book in bookList %}
+                <div class="row my-4">
+                    <div class="col-sm-1 offset-md-1">
+                        <img class="img-fluid" src="{% static 'book-placeholder.svg' %}" alt="{{ book.title }}" style="width: 80%;">
                     </div>
-                {% endfor %}
+                    <div class="col-sm-5">
+                        <h4>{{ book.title }}</h4>
+                        <h6>{{ book.author }}</h6>
+                        <p>Lorem ipsum</p>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="row text-center">
+                            <h3>{{ book.price }}€</h3>
+                        </div>
+                        <div class="row d-flex justify-content-center my-3">
+                            <div class="col-sm-1 me-5">
+                                <a class="btn btn-secondary" href="#" role="button">Ver</a>
+                            </div>
+                            <div class="col-sm-1">
+                                <a class="btn btn-primary" href="#" role="button">Añadir</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8 offset-md-1"><hr></div>
+                </div>
+            {% endfor %}
 
         </main>
         </div>

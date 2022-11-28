@@ -11,9 +11,13 @@
         {% for category in displayCategoryList %}
             <div class="col">
                 <div class="card shadow-sm">
-                    <img  src="{% static 'book-placeholder.svg' %}" alt={{ category.name }} >
+                  <a href="{% url 'catalog' %}/{{ category.id }}">
+                    <img  src="{% static 'book-placeholder.svg' %}" alt="{{ category.name }}">
+                  </a>
                 <div class="card-body">
-                    <h5 class="card-text">{{ category.name }}</h5>
+                  <a href="{% url 'catalog' %}/{{ category.id }}" class="link-secondary">
+                    <h5 class="card-text" href="{% url 'catalog' %}/{{ category.id }}">{{ category.name }}</h5>
+                  </a>
                 </div>
                 </div>
             </div>

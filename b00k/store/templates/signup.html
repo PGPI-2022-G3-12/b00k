@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid ">
+    <h1>
+        Registrarse
+    </h1>
+    <div class="d-flex form-inputs ">
+        <form class="form-signin" >
+            <label for="name" class="sr-only">Nombre</label>
+            <input type="text" id="name" name="name" class="form-control">
+            <label for="surname" class="sr-only">Apellidos</label>
+            <input type="text" id="surname" name="surname" class="form-control">
+            <label for="email" class="sr-only">e-mail</label>
+            <input type="text" id="email" name="email" class="form-control">
+            <label for="mail" class="sr-only">Dirección de entrega</label>
+            <input type="text" id="mail" name="mail" class="form-control">
+            <label for="password" class="sr-only">Contraseña</label>
+            <input type="text" id="password" name="password" class="form-control">
+            <label for="passwordconf" class="sr-only">Confirmar contraseña</label>
+            <input type="text" id="passwordconf" name="passwordconf" class="form-control">
+            <button class="btn btn-lg btn-primary btn-block mt-3 mb-3" >Registrarse</button>
+        </form>
+    </div>
+</div>
+{% endblock  %}

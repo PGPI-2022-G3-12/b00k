@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container-fluid">
+        <h1>
+            Gestión de clientes
+        </h1>
+        <ul>
+            <li>Cliente 1</li>
+            <li>Cliente 2</li>
+            <li>Cliente 3</li>
+            <li>Cliente 4</li>
+            <li>Cliente 5</li>
+            <li>Cliente 6</li>
+            <li>Cliente 7</li>
+            <li>Cliente 8</li>
+            <li>Cliente 9</li>
+            <li>Cliente 10</li>
+        </ul>
+    </div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-start">
+          <!-- previous -->
+          {% if pageObj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1">Primera</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ pageObj.previous_page_number }}">{{ pageObj.previous_page_number }}</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1">Primera</a>
+            </li>
+          {% endif %}
+
+          <!-- current -->
+          <li class="page-item">
+                <a class="page-link" href="?page={{ pageObj.number }}">{{ pageObj.number }}</a>
+          </li>
+
+          <!-- next -->
+          {% if pageObj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ pageObj.next_page_number }}">{{ pageObj.next_page_number }}</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ pageObj.paginator.num_pages }}">Última</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1">Última</a>
+            </li>
+          {% endif %}
+        </ul>
+    </nav>
+    <button class="px-5">
+        Eliminar un cliente
+    </button>
+{% endblock  %}

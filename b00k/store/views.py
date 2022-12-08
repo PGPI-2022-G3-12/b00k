@@ -8,3 +8,6 @@ def index(request):
 
 def catalog(request):
     pass
+
+def cart(request):
+    return render(request, 'cart.html')

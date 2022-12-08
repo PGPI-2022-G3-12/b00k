@@ -12,8 +12,11 @@ class Category(models.Model):
 class Cart(models.Model):
     client = models.CharField(max_length=255, unique=True)
     books = models.ManyToManyField(Book)
+    
     def get_price(self):
-        if self.books.count == 0:
+        price = self.books.aggregate(final_price=models.Sum('price'))
+        result = price["final_price"]
+        if result is None:
             return 0.0
         else:
-            return self.books.aggregate(models.Sum('price'))
+            return result

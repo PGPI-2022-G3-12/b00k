@@ -22,15 +22,16 @@ def cartView(request):
         
         cart, _ = Cart.objects.get_or_create(client=user)
         bookList = Book.objects.filter(cart__client=user).order_by(bookOrder)
-
+        
         paginator = Paginator(bookList, nProducts)
         pageObj = paginator.get_page(pageNumber)
         totalPrice = cart.get_price()
         
         
         
+        
         context = {
-            'bookList': pageObj,
+            'bookList': bookList,
             'pageNumber': pageNumber,
             'nProducts': nProducts,
             'pageObj': pageObj,

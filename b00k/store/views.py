@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Book, Cart
+from .models import Book, Cart, Order
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 # Create your views here.
@@ -20,15 +20,17 @@ def cartView(request):
     
     user = request.user.get_username()
     
+    
     cart, _ = Cart.objects.get_or_create(client=user)
     bookList = Book.objects.filter(cart__client=user).order_by(bookOrder)
     
     paginator = Paginator(bookList, nProducts)
     pageObj = paginator.get_page(pageNumber)
-    totalPrice = cart.get_price()
     
     
+    orderList = Order.objects.filter(cart__client=user)
     
+    totalPrice = sum([order.get_cost() for order in orderList])
     
     context = {
         'bookList': bookList,

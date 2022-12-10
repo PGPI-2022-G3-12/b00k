@@ -20,3 +20,7 @@ class Cart(models.Model):
             return 0.0
         else:
             return result
+class Order(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)

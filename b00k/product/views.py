@@ -27,6 +27,7 @@ class ProductDetailView(TemplateView):
         context = super().get_context_data(**kwargs)
         pid = kwargs.get('product_id',0)
         try:
+            #TOFIX: No detecta el objeto pese a existir en la db
             product = models.BookProduct.objects.get(pk=pid)
             context['product'] = json.dumps(product)
         except:

@@ -5,8 +5,14 @@ class BookAuthor(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
 
+    def save(self):
+        return super().save()
+
 class BookPublisher(models.Model):
     name = models.CharField(max_length=15)
+
+    def save(self):
+        return super().save()
 
 class BookProduct(models.Model):
     title = models.CharField(max_length=30)
@@ -15,4 +21,14 @@ class BookProduct(models.Model):
     description = models.CharField(max_length=200,null=True)
     price = models.DecimalField(max_digits=4,decimal_places=2)
     picture = models.ImageField()
+    stock = models.IntegerField(default=0)
     #isbn?
+
+    def save(self):
+        return super().save()
+
+    def change_stock(self,stock:int):
+        new_stock = max(self.stock-stock,0)
+        self.stock = new_stock
+        self.save()
+

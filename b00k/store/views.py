@@ -34,7 +34,9 @@ def catalogAll(request):
         'bookList': pageObj,
         'pageNumber': pageNumber,
         'nProducts': nProducts,
+        'orderBy': bookOrder,
         'pageObj': pageObj,
+        'categoryId': None,
     }
 
     return render(request, 'catalog.html', context)
@@ -56,7 +58,9 @@ def catalogCategory(request, categoryId):
         'bookList': pageObj,
         'pageNumber': pageNumber,
         'nProducts': nProducts,
+        'orderBy': bookOrder,
         'pageObj': pageObj,
+        'categoryId': categoryId,
     }
 
     return render(request, 'catalog.html', context)

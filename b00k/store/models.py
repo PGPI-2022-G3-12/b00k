@@ -46,7 +46,7 @@ class ClientProfile(models.Model):
     address = models.CharField(max_length=255)
 
     def __str__(self):
-        return "({fName} {lName}, {uName})".format(fname=self.user.first_name,lName =self.user.last_name, uName= self.user.username)
+        return "({fName} {lName}, {uName})".format(fName=self.user.first_name,lName =self.user.last_name, uName= self.user.username)
     
     
 # Gestión de compras

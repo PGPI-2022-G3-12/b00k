@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
     <div class="container">
-        <h1>Resultados de la busqueda: [[query]]</h1>
+        <h1>Resultados de la busqueda: {{query}}</h1>
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -13,7 +13,7 @@
                 {% for product in products %}
                 <tr>
                     <th><img src="product.image"></th>
-                    <th>[[product.description]]</th>
+                    <th><a href="{%url 'single_product' product_id=product.id %}">{{product.description}}</a></th>
                 </tr>
                 {% endfor %}
             </tbody>

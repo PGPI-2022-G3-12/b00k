@@ -8,11 +8,17 @@ class BookAuthor(models.Model):
     def save(self):
         return super().save()
 
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
+
 class BookPublisher(models.Model):
     name = models.CharField(max_length=15)
 
     def save(self):
         return super().save()
+
+    def __str__(self):
+        return self.name
 
 class BookProduct(models.Model):
     title = models.CharField(max_length=30)

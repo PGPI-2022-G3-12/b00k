@@ -2,17 +2,12 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from .forms import ClientCreationForm, ClientLoginForm
-from .models import Book, Cart, Order
+from .models import BookProduct, Cart, Order, Category, ClientProfile
 from django.core.paginator import Paginator
-from django.contrib.auth.decorators import login_required
-# Create your views here.
 from django.conf import settings
-from django.core.paginator import Paginator
 from django.views.decorators.http import require_GET, require_POST
 from django.views.generic import TemplateView
 from django.http import Http404
-
-from .models import BookProduct, Category, ClientProfile
 
 BASE_URL = settings.BASE_URL
 
@@ -100,22 +95,23 @@ def cartView(request):
     pageNumber = request.GET.get('page', 1)
 
     placeholder = ''
+    print(request.user.id)
+    print(type(request.user.id))
 
     if request.user.is_authenticated:
-        username = request.user.username
-        cart, _ = Cart.objects.get_or_create(client__user__username=username)
+        # username = request.user.username
+        cart, _ = Cart.objects.get_or_create(client__user=request.user.id)
         cart.email = request.user.email
-        
-        cart.save()
+        # cart.save(force_update=True)
+    
     else:
-        cart, _ = Cart.objects.get_or_create(client__user=request.user)
+        cart, _ = Cart.objects.get_or_create(client__user=request.user.id)
         cart.email = placeholder
-        cart.save()
-
+        # cart.save(force_update=True)
 
     
-    
-    bookList = Book.objects.filter(order__cart__id=cart.id).order_by(bookOrder)
+
+    bookList = BookProduct.objects.filter(order__cart__id=cart.id).order_by(bookOrder)
     
     orderList = Order.objects.get_or_create(cart=cart)
     paginator = Paginator(orderList, nProducts)
@@ -148,7 +144,7 @@ def cartDetails(request, cart_id):
     pageNumber = request.GET.get('pageNumber', 1)
 
     cart = Cart.objects.get(id=cart_id)
-    bookList = Book.objects.filter(order__cart__id=cart_id).order_by(bookOrder)
+    bookList = BookProduct.objects.filter(order__cart__id=cart_id).order_by(bookOrder)
     
     orderList = Order.objects.get(cart=cart)
     paginator = Paginator(orderList, nProducts)

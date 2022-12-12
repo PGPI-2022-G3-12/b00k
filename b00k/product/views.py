@@ -5,7 +5,7 @@ from .models import BookProduct
 import json
 from django.conf import settings
 # Create your views here.
-BASE_DIR = settings.BASE_DIR
+BASE_URL = settings.BASE_URL
 class ProductListView(TemplateView):
     template_name = 'product/list.html'
 
@@ -31,7 +31,7 @@ class ProductDetailView(TemplateView):
             #TOFIX: No detecta el objeto pese a existir en la db
             product = BookProduct.objects.get(pk=pid)
             context['product'] = product
-            context['BASE_DIR'] = BASE_DIR
+            context['BASE_URL'] = BASE_URL
         except:
             raise Http404
         return context

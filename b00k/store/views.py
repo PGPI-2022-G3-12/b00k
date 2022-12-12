@@ -106,10 +106,7 @@ class ProductDetailView(TemplateView):
             raise Http404
         return context
 
-
-def catalog(request):
-    pass
-
+@require_GET
 def clients(request):
     return render(request,'clients.html')
 

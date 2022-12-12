@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator
+from django.views.decorators.http import require_GET
 
 from .models import Book, Category
 
+@require_GET
 def index(request):
     # Escaparate
     categoryList = Category.objects.order_by('name')
@@ -15,6 +17,7 @@ def index(request):
 
     return render(request, 'index.html', context)
 
+@require_GET
 def catalogAll(request):
     # Catálogo - Todas las categorías
     bookOrder = request.GET.get('sortBy', 'title')
@@ -36,6 +39,7 @@ def catalogAll(request):
 
     return render(request, 'catalog.html', context)
 
+@require_GET
 def catalogCategory(request, categoryId):
     # Catálogo
     bookOrder = request.GET.get('orderBy', 'title')

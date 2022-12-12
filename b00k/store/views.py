@@ -73,18 +73,23 @@ def catalogCategory(request, categoryId):
 
     return render(request, 'catalog.html', context)
 
+@require_GET
 def return_policy(request):
     return render(request, 'return-policy.html')
 
+@require_GET
 def free_delivery(request):
     return render(request, 'free-delivery.html')
 
+@require_GET
 def terms_service(request):
     return render(request, 'terms-service.html')
 
+@require_GET
 def privacy(request):
     return render(request, 'privacy.html')
 
+@require_GET
 def business_data(request):
     return render(request, 'business-data.html')
 
@@ -119,7 +124,7 @@ def cartView(request):
         totalPrice = 0
 
     cart.totalPrice = totalPrice
-    
+
     cart.save()
 
     context = {
@@ -130,8 +135,8 @@ def cartView(request):
         'cart': cart,
         'totalPrice': totalPrice,
         'orderList': orderList
-
     }
+
     return render(request, 'cart.html', context)
 
 def cartDetails(request, cart_id):
@@ -162,8 +167,8 @@ def cartDetails(request, cart_id):
         'cart': cart,
         'totalPrice': totalPrice,
         'orderList': orderList
-
     }
+
     return render(request, 'order-details.html', context)
 
 

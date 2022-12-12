@@ -37,19 +37,19 @@
                             N. productos
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="?nProducts=25">25</a></li>
-                            <li><a class="dropdown-item" href="?nProducts=50">50</a></li>
-                            <li><a class="dropdown-item" href="?nProducts=100">100</a></li>
+                            <li><a class="dropdown-item" href="?nProducts=25&sortBy={{ orderBy }}">25</a></li>
+                            <li><a class="dropdown-item" href="?nProducts=50&sortBy={{ orderBy }}">50</a></li>
+                            <li><a class="dropdown-item" href="?nProducts=100&sortBy={{ orderBy }}">100</a></li>
                         </ul>
                     </div>
                     <div class="dropdown">
-                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="sort-by" data-bs-toggle="dropdown" aria-expanded="false">
                             Ordenar
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Precio Ascendente</a></li>
-                            <li><a class="dropdown-item" href="#">Precio Descendente</a></li>
-                            <li><a class="dropdown-item" href="#">Título</a></li>
+                            <li><a class="dropdown-item" id="sort-price-asc" href="?nProducts={{nProducts}}&sortBy=price">Precio Ascendente</a></li>
+                            <li><a class="dropdown-item" id="sort-price-desc" href="?nProducts={{nProducts}}&sortBy=price">Precio Descendente</a></li>
+                            <li><a class="dropdown-item" id="sort-title" href="?nProducts={{nProducts}}&sortBy=title">Título</a></li>
                         </ul>
                     </div>
                 </div>

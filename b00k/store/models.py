@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class BookAuthor(models.Model):
     first_name = models.CharField(max_length=30)
@@ -40,6 +41,14 @@ class Category(models.Model):
     name = models.CharField(max_length=255)
     books = models.ManyToManyField(BookProduct)
 
+class ClientProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE) #Aqui iría todo lo importante
+    address = models.CharField(max_length=255)
+
+    def __str__(self):
+        return "({fName} {lName}, {uName})".format(fName=self.user.first_name,lName =self.user.last_name, uName= self.user.username)
+    
+    
 # Gestión de compras
 class Cart(models.Model):
     client = models.CharField(max_length=255, unique=True)

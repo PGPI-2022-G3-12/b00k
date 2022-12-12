@@ -3,8 +3,6 @@ from django.core.paginator import Paginator
 
 from .models import Book, Category
 
-# Create your views here.
-
 def index(request):
     # Escaparate
     categoryList = Category.objects.order_by('name')
@@ -19,7 +17,7 @@ def index(request):
 
 def catalogAll(request):
     # Catálogo - Todas las categorías
-    bookOrder = request.GET.get('orderBy', 'title')
+    bookOrder = request.GET.get('sortBy', 'title')
     nProducts = request.GET.get('nProducts', 25)
     pageNumber = request.GET.get('page', 1)
 

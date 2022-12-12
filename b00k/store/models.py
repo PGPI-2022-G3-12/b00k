@@ -18,6 +18,12 @@ class Cart(models.Model):
     books = models.ManyToManyField(Book)
     totalPrice = models.FloatField(default=0.0)
 
+    DELIVERED = 'delivered'
+    EN_ROUTE = 'en_route'
+    PROCESSING = 'processing'
+
+    DELIVERY_STATE = ((DELIVERED, 'delivered'),(EN_ROUTE,'en_route'),(PROCESSING,'processing'))
+    delivery_state = models.CharField(max_length=15, choices=DELIVERY_STATE, default=PROCESSING)
 
     # def get_price(self):
     #     price = self.books.aggregate(final_price=models.Sum('price'))

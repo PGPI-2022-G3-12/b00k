@@ -11,7 +11,7 @@ from django.http import Http404
 
 BASE_URL = settings.BASE_URL
 
-# 
+# Visualización de productos
 @require_GET
 def index(request):
     # Escaparate
@@ -48,6 +48,7 @@ def catalogAll(request):
     }
 
     return render(request, 'catalog.html', context)
+
 @require_GET
 def catalogCategory(request, categoryId):
     # Catálogo
@@ -87,44 +88,39 @@ def privacy(request):
 def business_data(request):
     return render(request, 'business-data.html')
 
-
+# Gestión de compras
 # @login_required
 def cartView(request):
     bookOrder = request.GET.get('orderBy', 'title')
     nProducts = request.GET.get('nProducts', 25)
     pageNumber = request.GET.get('page', 1)
 
-    placeholder = ''
-    print(request.user.id)
-    print(type(request.user.id))
-
     if request.user.is_authenticated:
         # username = request.user.username
         cart, _ = Cart.objects.get_or_create(client__user=request.user.id)
         cart.email = request.user.email
         # cart.save(force_update=True)
-    
     else:
         cart, _ = Cart.objects.get_or_create(client__user=request.user.id)
-        cart.email = placeholder
+
         # cart.save(force_update=True)
-
     
-
     bookList = BookProduct.objects.filter(order__cart__id=cart.id).order_by(bookOrder)
     
-    orderList = Order.objects.get_or_create(cart=cart)
+    orderList = Order.objects.filter(cart=cart)
     paginator = Paginator(orderList, nProducts)
     pageObj = paginator.get_page(pageNumber)
     
-
-    totalPrice = sum([order.get_cost() for order in orderList])
-    
+    # Solo crear Orders al añadir productos al carrito
+    # Solo calcular precio total si existen Orders en el carrito
+    if (len(orderList) != 0):
+        totalPrice = sum([order.get_cost() for order in orderList])
+    else:
+        totalPrice = 0
 
     cart.totalPrice = totalPrice
+    
     cart.save()
-
-
 
     context = {
         'bookList': bookList,
@@ -236,7 +232,8 @@ class ProductDetailView(TemplateView):
 def clients(request):
     return render(request,'clients.html')
 
-@require_POST
+# Gestión de clientes
+# @require_POST
 def signup(request):
     if request.method == "POST":
         form = ClientCreationForm(request.POST)
@@ -255,7 +252,7 @@ def signup(request):
         form = ClientCreationForm()
     return render(request,'signup.html', {'form':form})
 
-@require_POST
+# @require_POST
 def signin(request):
     if request.method == "POST":
         form = ClientLoginForm(data=request.POST)
@@ -271,7 +268,7 @@ def signin(request):
         form = ClientLoginForm()
     return render(request,'signin.html', {'form':form})
 
-@require_POST
+# @require_POST
 def ourlogout(request):
     logout(request)
     return redirect('index')

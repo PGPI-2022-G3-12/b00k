@@ -49,7 +49,7 @@ class ClientProfile(models.Model):
         return "({fName} {lName}, {uName})".format(fName=self.user.first_name,lName =self.user.last_name, uName= self.user.username)
 
 class Cart(models.Model):
-    client = models.ForeignKey(ClientProfile, on_delete=models.CASCADE, default=1)
+    client = models.ForeignKey(ClientProfile, on_delete=models.CASCADE, blank=True, null=True)
     email = models.EmailField(max_length=254, null=True)
     books = models.ManyToManyField(BookProduct)
     totalPrice = models.DecimalField(max_digits=4,decimal_places=2, default=0.0)

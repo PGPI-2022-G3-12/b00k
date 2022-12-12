@@ -27,7 +27,7 @@ def business_data(request):
     return render(request, 'business-data.html')
 
 
-@login_required
+# @login_required
 def cartView(request):
     bookOrder = request.GET.get('orderBy', 'title')
     nProducts = request.GET.get('nProducts', 25)

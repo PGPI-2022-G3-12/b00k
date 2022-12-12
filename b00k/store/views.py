@@ -5,7 +5,7 @@ from .forms import ClientCreationForm, ClientLoginForm
 # Create your views here.
 from django.conf import settings
 from django.core.paginator import Paginator
-from django.views.decorators.http import require_GET
+from django.views.decorators.http import require_GET, require_POST
 from django.views.generic import TemplateView
 from django.http import Http404
 
@@ -110,7 +110,7 @@ class ProductDetailView(TemplateView):
 def clients(request):
     return render(request,'clients.html')
 
-# No method restriction
+@require_POST
 def signup(request):
     if request.method == "POST":
         form = ClientCreationForm(request.POST)
@@ -129,7 +129,7 @@ def signup(request):
         form = ClientCreationForm()
     return render(request,'signup.html', {'form':form})
 
-# No method restriction
+@require_POST
 def signin(request):
     if request.method == "POST":
         form = ClientLoginForm(data=request.POST)
@@ -145,7 +145,7 @@ def signin(request):
         form = ClientLoginForm()
     return render(request,'signin.html', {'form':form})
 
-# No method restriction
+@require_POST
 def ourlogout(request):
     logout(request)
     return redirect('index')

@@ -27,26 +27,42 @@ def business_data(request):
     return render(request, 'business-data.html')
 
 
-# @login_required
+@login_required
 def cartView(request):
     bookOrder = request.GET.get('orderBy', 'title')
     nProducts = request.GET.get('nProducts', 25)
     pageNumber = request.GET.get('pageNumber', 1)
 
+    placeholder = ''
+
+    if request.user.is_authenticated:
+        username = request.user.username
+        cart, _ = Cart.objects.get_or_create(client=username)
+
+        cart.firstName = request.user.first_name
+        cart.lastName = request.user.last_name
+        cart.email = request.user.email
+        
+        cart.save()
+    else:
+        username = placeholder
+
+        cart, _ = Cart.objects.get_or_create(client=placeholder)
+        cart.firstName = placeholder
+        cart.lastName = placeholder
+        cart.email = placeholder
+        cart.save()
+
+
     
-    user = request.user.get_username()
     
-    
-    cart, _ = Cart.objects.get_or_create(client=user)
     bookList = Book.objects.filter(order__cart__id=cart.id).order_by(bookOrder)
     
-    orderList = Order.objects.filter(cart__client=user)
+    orderList = Order.objects.get_or_create(cart=cart)
     paginator = Paginator(orderList, nProducts)
     pageObj = paginator.get_page(pageNumber)
     
-    
-    
-    
+
     totalPrice = sum([order.get_cost() for order in orderList])
     
 

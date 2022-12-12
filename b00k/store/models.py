@@ -10,7 +10,7 @@ class Category(models.Model):
     books = models.ManyToManyField(Book)
 
 class Cart(models.Model):
-    client = models.CharField(max_length=255, unique=True)
+    client = models.CharField(max_length=255, unique=True, blank=True)
     firstName = models.CharField(max_length=150, default='Jane')
     lastName = models.CharField(max_length=150, default='Doe')
     email = models.EmailField(max_length=254, unique=True, blank=True)

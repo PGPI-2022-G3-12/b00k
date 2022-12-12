@@ -99,24 +99,24 @@
               <div class="col mb-3">
                 <h5>B00k</h5>
                 <ul class="nav flex-column">
-                  <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Inicio</a></li>
-                  <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Datos de empresa</a></li>
+                  <li class="nav-item mb-2"><a href="{% url 'index' %}" class="nav-link p-0 text-muted">Inicio</a></li>
+                  <li class="nav-item mb-2"><a href="{% url 'business-data' %}" class="nav-link p-0 text-muted">Datos de empresa</a></li>
                 </ul>
               </div>
           
               <div class="col mb-3">
                 <h5>Información legal</h5>
                 <ul class="nav flex-column">
-                  <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Términos del servicio</a></li>
-                  <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Aviso de privacidad</a></li>
+                  <li class="nav-item mb-2"><a href="{% url 'terms-of-service' %}" class="nav-link p-0 text-muted">Términos del servicio</a></li>
+                  <li class="nav-item mb-2"><a href="{% url 'privacy' %}" class="nav-link p-0 text-muted">Aviso de privacidad</a></li>
                 </ul>
               </div>
           
               <div class="col mb-3">
                 <h5>Envío</h5>
                 <ul class="nav flex-column">
-                  <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Envío gratuito</a></li>
-                  <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Política de devolución</a></li>
+                  <li class="nav-item mb-2"><a href="{% url 'free-delivery' %}"class="nav-link p-0 text-muted">Envío gratuito</a></li>
+                  <li class="nav-item mb-2"><a href="{% url 'return-policy' %}" class="nav-link p-0 text-muted">Política de devolución</a></li>
                 </ul>
               </div>
             </footer>

@@ -22,9 +22,9 @@ urlpatterns = [
     path('signin',views.signin, name='signin'),
     path('logout',views.ourlogout, name='logout'),
     # Información al cliente
-    path('return-policy', views.return_policy),
-    path('privacy', views.privacy),
-    path('terms-service', views.terms_service),
-    path('free-delivery', views.free_delivery),
-    path('business-data', views.business_data),
+    path('return-policy', views.return_policy, name='return-policy'),
+    path('privacy', views.privacy, name='privacy'),
+    path('terms-of-service', views.terms_service, name='terms-of-service'),
+    path('free-delivery', views.free_delivery, name='free-delivery'),
+    path('business-data', views.business_data, name='business-data'),
 ]

@@ -12,7 +12,6 @@ class ProductListView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         query:str = kwargs.get('q','')
-        print(query)
         try:
             products = BookProduct.objects.filter(title__contains=query)
             context['products'] = products

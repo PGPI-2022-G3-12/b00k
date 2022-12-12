@@ -13,7 +13,7 @@
                 {% for product in products %}
                 <tr>
                     <th><img src="product.image"></th>
-                    <th><a href="{%url 'single_product' product_id=product.id %}">{{product.description}}</a></th>
+                    <th><a href="{%url 'single_product' product_id=product.id %}">{{product.title}}</a></th>
                 </tr>
                 {% endfor %}
             </tbody>

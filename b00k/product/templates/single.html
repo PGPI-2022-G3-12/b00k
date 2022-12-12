@@ -3,9 +3,8 @@
 {% block content %}
     <div class="container">
         <h1>{{product.title}}</h1>
-        <h2>Autor: {{product.author}}</h2>
-        <h2>Editorial: {{product.editorial}}</h2>
-        <h2>{{product.price}} €</h2>
+        <h2 class="text-secondary">{{product.author}}</h2>
+        <h2 class="text-dark">{{product.editorial}}</h2>
 
         <table class="table table-bordered table-striped">
             <thead>
@@ -21,6 +20,12 @@
                 </tr>
             </tbody>
         </table>
+        <h3>{{product.price}} €</h3>
+        <div class="form-inline " style="width: 22rem;">
+            <label class="form-label" for="typeNumber">Cantidad:</label>
+            <input value="1" max="{{product.stock}}" type="number" id="typeNumber"class="form-control-inline" />
+        </div>
+        <button type="button" class="btn btn-secondary">A&ntildeadir al carrito</button>
 
     </div>
 {% endblock %}

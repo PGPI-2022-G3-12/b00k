@@ -113,6 +113,7 @@ def catalog(request):
 def clients(request):
     return render(request,'clients.html')
 
+# No method restriction
 def signup(request):
     if request.method == "POST":
         form = ClientCreationForm(request.POST)
@@ -131,6 +132,7 @@ def signup(request):
         form = ClientCreationForm()
     return render(request,'signup.html', {'form':form})
 
+# No method restriction
 def signin(request):
     if request.method == "POST":
         form = ClientLoginForm(data=request.POST)
@@ -146,6 +148,7 @@ def signin(request):
         form = ClientLoginForm()
     return render(request,'signin.html', {'form':form})
 
+# No method restriction
 def ourlogout(request):
     logout(request)
     return redirect('index')

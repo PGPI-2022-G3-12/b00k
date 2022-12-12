@@ -34,20 +34,20 @@
         </div>
 
         <!-- List books -->
-        {% for book in bookList %}
+        {% for order in orderList %}
             <div class="row my-4">
                 <div class="col-sm-1 offset-md-1">
                     <img class="img-fluid" src="{% static 'book-placeholder.svg' %}" alt="{{ book.title }}" style="width: 80%;">
                 </div>
                 <div class="col-sm-5">
-                    <h4>{{ book.title }}</h4>
-                    <h6>{{ book.author }}</h6>
+                    <h4>{{ order.book.title }}</h4>
+                    <h6>{{ order.book.author }}</h6>
                     
                     <p>Lorem ipsum</p>
                 </div>
-                <div class="col-sm-2">
+                <div class="col-sm-6">
                     <div class="row text-center">
-                        <h3>{{ book.price }} €</h3>
+                        <h3>{{ order.book.price }} €</h3>
                     </div>
                     <div class="row d-flex justify-content-center my-3">
                         <div class="col-sm-1 me-5">
@@ -58,25 +58,58 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-8 offset-md-1"><hr></div>
+
+
+                
+                <form method="GET">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <button type="submit" class="btn btn-secondary" formaction="{% url 'cart:remove' order.book.id %}" style="width: 35px;">-</button>
+                        </div>
+                        
+                        <input class="form-control" type="number" placeholder="Cantidad" size="1" name="quantity" value="1" min="1" max="255" required=true>
+                        
+                        <input type="hidden" name="division" value="{{ request.path }}">
+                        <input type="hidden" name="order_id" value="{{ order.id }}">
+                        
+
+
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-success" formaction="{% url 'cart:add' order.book.id %}" style="width: 35px;">+</button>
+                        </div>
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-success" formaction="{% url 'cart:delete' order.book.id %}" style="width: 35px;">Eliminar del pedido</button>
+                        </div>
+                    </div>
+                    <br>
+                </form>
+                
+
+                <!-- <div class="col-md-8 offset-md-1"><hr></div> -->
             </div>
         {% endfor %}
 
         <div class="row my-4 justify-content-space-between">
+            
             <div class="col-sm">
                 <h3>Total:</h3>
             </div>
+            
             <div class="col-sm">
                 <h3>{{ totalPrice }}€</h3>
             </div>
+        
         </div>
+
         <div class="row justify-content-end">
+            
             <div class="col-sm-4">
                 <a class="btn btn-primary" href="#" role="button">Proceder al pago</a>
             </div>
+        
         </div>
 
-    </main>
+        </main>
     </div>
 </div>
 

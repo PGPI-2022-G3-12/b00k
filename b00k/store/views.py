@@ -1,9 +1,15 @@
+from django.conf import settings
 from django.shortcuts import render
 from django.core.paginator import Paginator
 from django.views.decorators.http import require_GET
+from django.views.generic import TemplateView
+from django.http import Http404
 
-from .models import Book, Category
+from .models import BookProduct, Category
 
+BASE_URL = settings.BASE_URL
+
+# 
 @require_GET
 def index(request):
     # Escaparate
@@ -25,7 +31,7 @@ def catalogAll(request):
     pageNumber = request.GET.get('page', 1)
 
     categoryList = Category.objects.order_by('name')
-    bookList = Book.objects.order_by(bookOrder)
+    bookList = BookProduct.objects.order_by(bookOrder)
     paginator = Paginator(bookList, nProducts)
     pageObj = paginator.get_page(pageNumber)
 
@@ -49,7 +55,7 @@ def catalogCategory(request, categoryId):
     pageNumber = request.GET.get('page', 1)
 
     categoryList = Category.objects.order_by('name')
-    bookList = Book.objects.order_by(bookOrder).filter(category=categoryId)
+    bookList = BookProduct.objects.order_by(bookOrder).filter(category=categoryId)
     paginator = Paginator(bookList, nProducts)
     pageObj = paginator.get_page(pageNumber)
 
@@ -64,3 +70,34 @@ def catalogCategory(request, categoryId):
     }
 
     return render(request, 'catalog.html', context)
+
+# Gestion de productos
+class ProductListView(TemplateView):
+    template_name = 'list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        query:str = kwargs.get('q','')
+        try:
+            products = BookProduct.objects.filter(title__contains=query)
+            context['products'] = products
+            context['query'] = query
+
+        except:
+            raise Http404
+        return context
+
+class ProductDetailView(TemplateView):
+    template_name = 'single.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pid = kwargs.get('product_id',0)
+        try:
+            #TOFIX: No detecta el objeto pese a existir en la db
+            product = BookProduct.objects.get(pk=pid)
+            context['product'] = product
+            context['BASE_URL'] = BASE_URL
+        except:
+            raise Http404
+        return context

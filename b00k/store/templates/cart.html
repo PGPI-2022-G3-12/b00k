@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <!-- Results section -->
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Resultados</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle me-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        N. productos
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="?nProducts=25">25</a></li>
+                        <li><a class="dropdown-item" href="?nProducts=50">50</a></li>
+                        <li><a class="dropdown-item" href="?nProducts=100">100</a></li>
+                    </ul>
+                </div>
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Ordenar
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Precio Ascendente</a></li>
+                        <li><a class="dropdown-item" href="#">Precio Descendente</a></li>
+                        <li><a class="dropdown-item" href="#">Título</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- List books -->
+        {% for book in bookList %}
+            <div class="row my-4">
+                <div class="col-sm-1 offset-md-1">
+                    <img class="img-fluid" src="{% static 'book-placeholder.svg' %}" alt="{{ book.title }}" style="width: 80%;">
+                </div>
+                <div class="col-sm-5">
+                    <h4>{{ book.title }}</h4>
+                    <h6>{{ book.author }}</h6>
+                    <p>Lorem ipsum</p>
+                </div>
+                <div class="col-sm-2">
+                    <div class="row text-center">
+                        <h3>{{ book.price }}€</h3>
+                    </div>
+                    <div class="row d-flex justify-content-center my-3">
+                        <div class="col-sm-1 me-5">
+                            <a class="btn btn-secondary" href="#" role="button">Ver</a>
+                        </div>
+                        <div class="col-sm-1">
+                            <a class="btn btn-primary" href="#" role="button">Añadir</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 offset-md-1"><hr></div>
+            </div>
+        {% endfor %}
+
+        <div class="row my-4 justify-content-space-between">
+            <div class="col-sm">
+                <h3>Total:</h3>
+            </div>
+            <div class="col-sm">
+                <h3>{{ totalPrice }}€</h3>
+            </div>
+        </div>
+        <div class="row justify-content-end">
+            <div class="col-sm-4">
+                <a class="btn btn-primary" href="#" role="button">Proceder al pago</a>
+            </div>
+        </div>
+
+    </main>
+    </div>
+</div>
+
+<!-- Pagination -->
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      <!-- previous -->
+      {% if pageObj.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page=1">Primera</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page={{ pageObj.previous_page_number }}">{{ pageObj.previous_page_number }}</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Primera</a>
+        </li>
+      {% endif %}
+
+      <!-- current -->
+      <li class="page-item">
+            <a class="page-link" href="?page={{ pageObj.number }}">{{ pageObj.number }}</a>
+      </li>
+
+      <!-- next -->
+      {% if pageObj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ pageObj.next_page_number }}">{{ pageObj.next_page_number }}</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page={{ pageObj.paginator.num_pages }}">Última</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Última</a>
+        </li>
+      {% endif %}
+    </ul>
+</nav>
+
+{% endblock  %}

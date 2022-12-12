@@ -20,7 +20,7 @@ class BookProduct(models.Model):
     editorial = models.ForeignKey(BookPublisher,on_delete=models.CASCADE)
     description = models.CharField(max_length=200,null=True)
     price = models.DecimalField(max_digits=4,decimal_places=2)
-    picture = models.ImageField()
+    picture = models.ImageField(upload_to="media")
     stock = models.IntegerField(default=0)
     #isbn?
 

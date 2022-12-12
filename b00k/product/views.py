@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.http import Http404
-from . import models
+from .models import BookProduct 
 import json
+from django.conf import settings
 # Create your views here.
-
+BASE_DIR = settings.BASE_DIR
 class ProductListView(TemplateView):
     template_name = 'product/list.html'
 
@@ -12,7 +13,7 @@ class ProductListView(TemplateView):
         context = super().get_context_data(**kwargs)
         query:str = kwargs.get('q','')
         try:
-            products = models.BookProduct.objects.filter(title__contains=query)
+            products = BookProduct.objects.filter(title__contains=query)
             context['products'] = json.dumps(products)
             context['query'] = json.dumps(query)
 
@@ -21,15 +22,16 @@ class ProductListView(TemplateView):
         return context
 
 class ProductDetailView(TemplateView):
-    template = 'product/single.html'
+    template_name = 'single.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         pid = kwargs.get('product_id',0)
         try:
             #TOFIX: No detecta el objeto pese a existir en la db
-            product = models.BookProduct.objects.get(pk=pid)
-            context['product'] = json.dumps(product)
+            product = BookProduct.objects.get(pk=pid)
+            context['product'] = product
+            context['BASE_DIR'] = BASE_DIR
         except:
             raise Http404
         return context

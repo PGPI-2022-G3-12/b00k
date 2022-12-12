@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
     <div class="container">
-        <h1>[[product.title]]</h1>
-        <h2>[[product.author]]</h2>
-        <h2>[[product.price]]</h2>
+        <h1>{{product.title}}</h1>
+        <h2>{{product.author}}</h2>
+        <h2>{{product.price}}</h2>
 
         <table class="table table-bordered table-striped">
             <thead>
@@ -14,8 +14,8 @@
             </thead>
             <tbody>
                 <tr>
-                    <th><img src="product.image"></th>
-                    <th>[[product.description]]</th>
+                    <th><img src="/{{BASE_DIR}}/{{product.picture}}"></th>
+                    <th>{{product.description}}</th>
                 </tr>
             </tbody>
         </table>

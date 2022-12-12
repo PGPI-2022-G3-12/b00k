@@ -51,34 +51,7 @@
                         <h3>{{ order.book.price }} €/unidad</h3>
                     </div>
                 </div>
-
-
-                
-                <form method="GET">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <button type="submit" class="btn btn-secondary" formaction="{% url 'cart:remove' order.book.id %}" style="width: 35px;">-</button>
-                        </div>
-                        
-                        <input class="form-control" type="number" placeholder="Cantidad" size="1" name="quantity" value="1" min="1" max="255" required=true>
-                        
-                        <input type="hidden" name="division" value="{{ request.path }}">
-                        <input type="hidden" name="order_id" value="{{ order.id }}">
-                        
-
-
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-success" formaction="{% url 'cart:add' order.book.id %}" style="width: 35px;">+</button>
-                        </div>
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-success" formaction="{% url 'cart:delete' order.book.id %}" style="width: 35px;">Eliminar del pedido</button>
-                        </div>
-                    </div>
-                    <br>
-                </form>
-                
-
-                <!-- <div class="col-md-8 offset-md-1"><hr></div> -->
+                <div class="col-md-8 offset-md-1"><hr></div>
             </div>
         {% endfor %}
 
@@ -93,17 +66,19 @@
             </div>
         
         </div>
-
-        <div class="row justify-content-end">
+        <div class="row my-4 justify-content-space-between">
             
-            <div class="col-sm-4">
-                <a class="btn btn-primary" href="#" role="button">Proceder al pago</a>
+            <div class="col-sm">
+                <h3>Estado:</h3>
+            </div>
+            
+            <div class="col-sm">
+                <h3>{{ cart.delivery_state }} €</h3>
             </div>
         
         </div>
-
-        </main>
-    </div>
+    </main>
+    <!-- </div> -->
 </div>
 
 <!-- Pagination -->

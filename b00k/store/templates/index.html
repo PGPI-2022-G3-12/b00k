@@ -1,5 +1,30 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-    
+<!-- Categories container -->
+<div class="categories py-5 bg-light">
+    <div class="container">
+
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <!-- Category card -->
+        {% for category in displayCategoryList %}
+            <div class="col">
+                <div class="card shadow-sm">
+                  <a href="{% url 'catalog' %}/{{ category.id }}">
+                    <img  src="{% static 'book-placeholder.svg' %}" alt="{{ category.name }}">
+                  </a>
+                <div class="card-body">
+                  <a href="{% url 'catalog' %}/{{ category.id }}" class="link-secondary">
+                    <h5 class="card-text" href="{% url 'catalog' %}/{{ category.id }}">{{ category.name }}</h5>
+                  </a>
+                </div>
+                </div>
+            </div>
+        {% endfor %}
+
+        
+      </div>
+    </div>
+  </div>
 {% endblock  %}

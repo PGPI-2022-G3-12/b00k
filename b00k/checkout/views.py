@@ -32,7 +32,7 @@ def create_checkout_session(request,cart_id):
     print("Ve al checkout")
 
     cart = Cart.objects.get(id=cart_id)
-    total_price = cart.total_price
+    total_price = cart.totalPrice
 
     session = stripe.checkout.Session.create(
     payment_method_types=['card'],

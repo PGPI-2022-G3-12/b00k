@@ -132,7 +132,7 @@ class ProductDetailView(TemplateView):
 def clients(request):
     return render(request,'clients.html')
 
-@require_POST
+# @require_POST
 def signup(request):
     if request.method == "POST":
         form = ClientCreationForm(request.POST)
@@ -151,7 +151,7 @@ def signup(request):
         form = ClientCreationForm()
     return render(request,'signup.html', {'form':form})
 
-@require_POST
+# @require_POST
 def signin(request):
     if request.method == "POST":
         form = ClientLoginForm(data=request.POST)
@@ -167,7 +167,7 @@ def signin(request):
         form = ClientLoginForm()
     return render(request,'signin.html', {'form':form})
 
-@require_POST
+# @require_POST
 def ourlogout(request):
     logout(request)
     return redirect('index')

@@ -76,20 +76,6 @@ def catalogCategory(request, categoryId):
     return render(request, 'catalog.html', context)
 
 # Gestion de productos
-class ProductListView(TemplateView):
-    template_name = 'list.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        query:str = kwargs.get('q','')
-        try:
-            products = BookProduct.objects.filter(title__contains=query)
-            context['products'] = products
-            context['query'] = query
-
-        except:
-            raise Http404
-        return context
 
 @require_GET
 def search(request,q):

@@ -20,19 +20,20 @@ environ.Env.read_env()
 BASE_URL = 'http://127.0.0.1:8000/'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env("SECRET_KEY")
+SECRET_KEY = 'django-insecure-2#fh+bnx%)ump)9@^979y&_!*+myh%*dz-1iaa)*&*o$f&dt7n'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -84,12 +85,12 @@ WSGI_APPLICATION = 'b00k.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env("DB_NAME"), 
-        'USER': env("DB_USER"),
-        'PASSWORD': env("DB_PASSWORD"),
-        'HOST': env("DB_HOST"), 
-        'PORT': env("DB_PORT"),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'b00k',
+        'USER': 'b00k',
+        'PASSWORD': 'b00k',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -127,7 +128,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATIC_ROOT = 'static/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media/')
 MEDIA_URL = '/media/'
@@ -137,6 +138,10 @@ MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+try:
+    from local_settings import *
+except ImportError:
+    print("local_settings.py not found")
 
 STRIPE_PUBLISHABLE_KEY = 'pk_test_51MDxIOAX1suTcn4ynHJDLGWYsZNQJUBrp5NhM4djPofIEnVBkAq8Xu1dQYdYZGlERDqzLH6OW9U7z7r0RMhICrAq00gzSRrUnKpk_test_51MDxIOAX1suTcn4ynHJDLGWYsZNQJUBrp5NhM4djPofIEnVBkAq8Xu1dQYdYZGlERDqzLH6OW9U7z7r0RMhICrAq00gzSRrUnK'
 STRIPE_SECRET_KEY = 'sk_test_51MDxIOAX1suTcn4y9hiqEFlpv7hnFSbDbOphjFPxuKjPBPEHtkPna6N08cJ0GkyjXWAXoVW2dXoS6KKdIRKulkHX00CLrgn1Mk'

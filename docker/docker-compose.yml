@@ -1,13 +1,14 @@
-
 version: '3.8'
 
 services:
   db:
     restart: always
     container_name: b00k_db
-    image: postgres:10.15-alpine
+    image: postgres:14.5-alpine
     environment:
-      - POSTGRES_PASSWORD=postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
     volumes:
       - db:/var/lib/postgresql/data
     networks:
@@ -18,7 +19,7 @@ services:
     container_name: b00k_web
     image: b00k_web:latest
     build: .
-    command: ash -c "python manage.py migrate && gunicorn -w 5 b00k.wsgi --timeout=500 -b 0.0.0.0:5000"
+    command: ash -c "python manage.py makemigrations && python manage.py migrate && gunicorn -w 5 b00k.wsgi --timeout=500 -b 0.0.0.0:5000"
     expose:
       - "5000"
     volumes:

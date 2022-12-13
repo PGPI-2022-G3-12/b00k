@@ -91,16 +91,24 @@
             <div class="col-sm">
                 <h3>{{ totalPrice }} €</h3>
             </div>
-        
         </div>
-
-        <div class="row justify-content-end">
+        {% if showPayButton %}
+            <div class="row justify-content-end">
+                
+                <div class="col-sm-4">
+                    <a class="btn btn-primary" href="{% url 'process_cart' cart.id %}" role="button">Proceder al pago</a>
+                </div>
             
-            <div class="col-sm-4">
-                <a class="btn btn-primary" href="{% url 'process_cart' cart.id %}" role="button">Proceder al pago</a>
             </div>
-        
-        </div>
+        {% else %}
+            <div class="row justify-content-end">
+                    
+                <div class="col-sm">
+                    <p>El identificador de seguimiento de su pedido es {{ cartId }}</p>
+                </div>
+            
+            </div>
+        {% endif %}
 
         </main>
     </div>

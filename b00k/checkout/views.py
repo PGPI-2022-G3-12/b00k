@@ -18,7 +18,12 @@ def home(request,cart_id):
     return render(request,'checkout.html', context=context)
 
 def success(request,cart_id):
-    return render(request,'success.html')
+    cart = Cart.objects.filter(id=cart_id)
+    cart.update(delivery_state='En Proceso')
+    context = {
+        'cartId': cart_id
+    }
+    return render(request,'success.html', context)
 
 def cancel(request,cart_id):
     return render(request,'cancel.html')
@@ -32,7 +37,7 @@ def create_checkout_session(request,cart_id):
     print("Ve al checkout")
 
     cart = Cart.objects.get(id=cart_id)
-    total_price = cart.totalPrice
+    total_price = cart.totalPrice * 100
 
     session = stripe.checkout.Session.create(
     payment_method_types=['card'],
@@ -42,12 +47,13 @@ def create_checkout_session(request,cart_id):
             'product_data': {
                 'name': 'Total a pagar',
              },
-             'unit_amount': total_price,
+             'unit_amount': int(total_price),
          },
          'quantity': 1,
      }],
      mode='payment',
-     success_url=YOUR_DOMAIN + '/checkout/success.html',
-     cancel_url=YOUR_DOMAIN + '/checkout/cancel.html',
+     success_url=YOUR_DOMAIN + '/checkout/' + str(cart_id) + '/success',
+     cancel_url=YOUR_DOMAIN + '/checkout/' + str(cart_id) + '/cancel',
     )
+    print("llega")
     return JsonResponse({'id': session.id})

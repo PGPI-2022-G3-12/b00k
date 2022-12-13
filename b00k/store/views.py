@@ -129,6 +129,8 @@ def cartView(request):
 
     cart.totalPrice = totalPrice
 
+    showPayButton = cart.delivery_state == "Pendiente de pago"
+
     cart.save(force_update=True)
 
     context = {
@@ -137,6 +139,8 @@ def cartView(request):
         'nProducts': nProducts,
         'pageObj': pageObj,
         'cart': cart,
+        'cartId': cart.id,
+        'showPayButton': showPayButton,
         'totalPrice': totalPrice,
         'orderList': orderList
     }
@@ -168,6 +172,7 @@ def cartDetails(request, cart_id):
     paginator = Paginator(orderList, nProducts)
     pageObj = paginator.get_page(pageNumber)
     
+    showPayButton = cart.delivery_state == "Pendiente de pago"
 
     if (len(orderList) != 0):
         totalPrice = sum([order.get_cost() for order in orderList])
@@ -185,6 +190,7 @@ def cartDetails(request, cart_id):
         'orderBy': bookOrder,
         'pageObj': pageObj,
         'cart': cart,
+        'showPayButton': showPayButton,
         'totalPrice': totalPrice,
         'orderList': orderList
     }

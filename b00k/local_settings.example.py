@@ -4,15 +4,7 @@ ALLOWED_HOSTS = ["*"]
 
 BASEURL = 'http://localhost:8000'
 APIS = {
-    'authentication': BASEURL,
-    'base': BASEURL,
-    'booth': BASEURL,
-    'census': BASEURL,
-    'mixnet': BASEURL,
-    'postproc': BASEURL,
     'store': BASEURL,
-    'visualizer': BASEURL,
-    'voting': BASEURL,
 }
 
 DATABASES = {

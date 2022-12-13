@@ -37,13 +37,12 @@
                            <div class="d-flex d-none d-md-flex flex-row align-items-center">
                                <span class="shop-bag"><i class='bx bxs-shopping-bag'></i></span>
                                <img  class="d-none d-md-flex" src="{% static 'shopping-bag.png' %}" alt="Logo" width="40">
-                               <div class="d-flex flex-column ms-2">
-                                   <span class="qty">1 Product</span>
-                                   <span class="fw-bold">$27.90</span>
-                               </div>
                                {% if user.is_authenticated %}
-                               <div class="col-sm-1 mx-2">
+                               <div class="col-sm-1 mx-5">
                                  <a class="btn btn-primary" href="{% url 'logout' %}" role="button">Salir</a>
+                               </div>
+                               <div class="d-flex flex-column ms-2">
+                                <span class="fw-bold">{{ user.username }}</span>
                                </div>
                                {% else %}
                                 <div class="col-sm-1 me-5 mx-1">

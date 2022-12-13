@@ -57,15 +57,8 @@ class Cart(models.Model):
     DELIVERED = 'delivered'
     EN_ROUTE = 'en_route'
     PROCESSING = 'processing'
+    PENDING_PAYMENT = 'pending_payment'
 
-    DELIVERY_STATE = ((DELIVERED, 'delivered'),(EN_ROUTE,'en_route'),(PROCESSING,'processing'))
-    delivery_state = models.CharField(max_length=15, choices=DELIVERY_STATE, default=PROCESSING)
-
-class Order(models.Model):
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
-    book = models.ForeignKey(BookProduct, on_delete=models.CASCADE)
-    quantity = models.IntegerField(default=1)
-    
     DIGITAL = 'digital'
     PHYSICAL = 'physical'
     CHECKOUT = 'checkout'
@@ -73,10 +66,16 @@ class Order(models.Model):
 
     DELIVERY_METHODS = ((DIGITAL, 'digital'), (PHYSICAL, 'physical'))
     PAYMENT_OPTIONS = ((CHECKOUT, 'checkout'), (CASH, 'cash'))
-
+    DELIVERY_STATE = ((DELIVERED, 'delivered'), (EN_ROUTE,'en_route'), (PROCESSING,'pending_payment'), (PENDING_PAYMENT, 'pending_payment'))
 
     delivery = models.CharField(max_length=15, choices=DELIVERY_METHODS, default=DIGITAL)
     payment = models.CharField(max_length=15, choices=PAYMENT_OPTIONS, default=CHECKOUT)
+    delivery_state = models.CharField(max_length=15, choices=DELIVERY_STATE, default=PENDING_PAYMENT)
 
+class Order(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    book = models.ForeignKey(BookProduct, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
+    
     def get_cost(self):
         return self.book.price * self.quantity

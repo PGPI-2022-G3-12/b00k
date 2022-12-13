@@ -176,6 +176,21 @@ def cartDetails(request, cart_id):
 
     return render(request, 'order-details.html', context)
 
+def add_book_from_catalog(request, book_id):
+    if request.user.is_authenticated:
+        cart, _ = Cart.objects.get_or_create(client__user=request.user.id)
+        cart.email = request.user.email
+    else:
+        cart, _ = Cart.objects.get_or_create(client__user=request.user.id)
+
+    order, _ = Order.objects.get_or_create(cart=cart.id)
+    
+
+    book_id_string = str(book_id)
+    order_id_string = str(order.id)
+    
+    return redirect("store/cart/add/" + book_id_string +"?order_id=" + order_id_string)
+
 
 def add_book(request, book_id):
     order_id = request.GET['order_id']

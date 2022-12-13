@@ -59,23 +59,23 @@ class Cart(models.Model):
 
     PAYMENT_OPTIONS = ((CHECKOUT, 'checkout'), (CASH, 'cash'))
 
-    DELIVERED = 'delivered'
-    EN_ROUTE = 'en_route'
-    PROCESSING = 'processing'
-    PENDING_PAYMENT = 'pending_payment'
+    DELIVERED = 'Entregado'
+    EN_ROUTE = 'En Camino'
+    PROCESSING = 'En Proceso'
+    PENDING_PAYMENT = 'Pendiente de pago'
 
-    DIGITAL = 'digital'
-    PHYSICAL = 'physical'
-    CHECKOUT = 'checkout'
-    CASH = 'cash'
+    DIGITAL = 'Digital'
+    PHYSICAL = 'Físico'
+    CHECKOUT = 'Pasarela de Pago'
+    CASH = 'En Efectivo'
 
-    DELIVERY_METHODS = ((DIGITAL, 'digital'), (PHYSICAL, 'physical'))
-    PAYMENT_OPTIONS = ((CHECKOUT, 'checkout'), (CASH, 'cash'))
-    DELIVERY_STATE = ((DELIVERED, 'delivered'), (EN_ROUTE,'en_route'), (PROCESSING,'pending_payment'), (PENDING_PAYMENT, 'pending_payment'))
+    DELIVERY_METHODS = ((DIGITAL, 'Digital'), (PHYSICAL, 'Fisico'))
+    PAYMENT_OPTIONS = ((CHECKOUT, 'Pasarela de Pago'), (CASH, 'En Efectivo'))
+    DELIVERY_STATE = ((DELIVERED, 'Entregado'), (EN_ROUTE,'En Camino'), (PROCESSING,'En Proceso'), (PENDING_PAYMENT, 'Pendiente de Pago'))
 
-    delivery = models.CharField(max_length=15, choices=DELIVERY_METHODS, default=DIGITAL)
-    payment = models.CharField(max_length=15, choices=PAYMENT_OPTIONS, default=CHECKOUT)
-    delivery_state = models.CharField(max_length=15, choices=DELIVERY_STATE, default=PENDING_PAYMENT)
+    delivery = models.CharField(max_length=20, choices=DELIVERY_METHODS, default=DIGITAL)
+    payment = models.CharField(max_length=20, choices=PAYMENT_OPTIONS, default=CHECKOUT)
+    delivery_state = models.CharField(max_length=20, choices=DELIVERY_STATE, default=PENDING_PAYMENT)
 
 class Order(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)

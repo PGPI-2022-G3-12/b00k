@@ -46,7 +46,7 @@
                 <div class="col-sm">
                     <h3>{{ order.quantity }} Unidades</h3>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm">
                     <div class="row text-center">
                         <h3>{{ order.book.price }} €/unidad</h3>
                     </div>
@@ -73,7 +73,7 @@
             </div>
             
             <div class="col-sm">
-                <h3>{{ cart.delivery_state }} €</h3>
+                <h3>{{ cart.delivery_state }}</h3>
             </div>
         
         </div>
@@ -117,9 +117,6 @@
         </li>
       {% endif %}
     </ul>
-
-    <a href="{% url 'checkout:home' %}" class="btn btn-sm btn-success">Pagar con tarjeta</a>
-    <a href="{% url 'checkout:success' %}" class="btn btn-sm btn-success">Contrareembolso</a>
 </nav>
 
 {% endblock  %}

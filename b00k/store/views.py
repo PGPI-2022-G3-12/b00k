@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from .forms import ClientCreationForm, ClientLoginForm
+from django.views.decorators.csrf import csrf_exempt
 from .models import BookProduct, Cart, Order, Category, ClientProfile
 from django.core.paginator import Paginator
 from django.conf import settings
@@ -102,17 +103,20 @@ def cartView(request):
 
     if request.user.is_authenticated:
         # username = request.user.username
-        cart, _ = Cart.objects.get_or_create(client__user=request.user.id)
+        clientP = ClientProfile.objects.get(user=request.user)
+        cart, _ = Cart.objects.get_or_create(client__user=request.user)
+        
         cart.email = request.user.email
+        cart.client = clientP
         # cart.save(force_update=True)
     else:
-        cart, _ = Cart.objects.get_or_create(client__user=request.user.id)
+        cart, _ = Cart.objects.get_or_create(client__user__id=request.user.id)
 
         # cart.save(force_update=True)
     
-    bookList = BookProduct.objects.filter(order__cart__id=cart.id).order_by(bookOrder)
+    bookList = BookProduct.objects.filter(order__cart=cart.id).order_by(bookOrder)
     
-    orderList = Order.objects.filter(cart=cart)
+    orderList = Order.objects.filter(cart__id=cart.id)
     paginator = Paginator(orderList, nProducts)
     pageObj = paginator.get_page(pageNumber)
     
@@ -125,7 +129,7 @@ def cartView(request):
 
     cart.totalPrice = totalPrice
 
-    cart.save()
+    cart.save(force_update=True)
 
     context = {
         'bookList': bookList,
@@ -143,6 +147,14 @@ def process_cart(request, cart_id):
     cart_string_id = str(cart_id)
     return redirect("/checkout/"+cart_string_id)
 
+def search_cart(request):
+    return render(request, 'search.html')
+
+@csrf_exempt
+def redirect_cart_details(request):
+
+    details_id = request.GET['cart_id']
+    return redirect("/store/cart/"+details_id)
 
 def cartDetails(request, cart_id):
     bookOrder = request.GET.get('orderBy', 'title')
@@ -152,15 +164,18 @@ def cartDetails(request, cart_id):
     cart = Cart.objects.get(id=cart_id)
     bookList = BookProduct.objects.filter(order__cart__id=cart_id).order_by(bookOrder)
     
-    orderList = Order.objects.filter(cart=cart)
+    orderList = Order.objects.filter(cart=cart.id)
     paginator = Paginator(orderList, nProducts)
     pageObj = paginator.get_page(pageNumber)
     
 
-    totalPrice = sum([order.get_cost() for order in orderList])
-    
+    if (len(orderList) != 0):
+        totalPrice = sum([order.get_cost() for order in orderList])
+    else:
+        totalPrice = 0
 
     cart.totalPrice = totalPrice
+
     cart.save()
 
     context = {
@@ -183,20 +198,23 @@ def add_book_from_catalog(request, book_id):
     else:
         cart, _ = Cart.objects.get_or_create(client__user=request.user.id)
 
-    order, _ = Order.objects.get_or_create(cart=cart.id)
+    order, _ = Order.objects.get_or_create(cart=cart, book_id=book_id)
     
 
     book_id_string = str(book_id)
     order_id_string = str(order.id)
-    
-    return redirect("store/cart/add/" + book_id_string +"?order_id=" + order_id_string)
+    contenido_get = '?order_id=' + order_id_string
+    string_to_add = '&'
+    for k,v in request.GET.items():
+        contenido_get += string_to_add + k + "=" + str(v)
+    return redirect("/store/cart/add/" + book_id_string + contenido_get)
 
 
 def add_book(request, book_id):
     order_id = request.GET['order_id']
     order = Order.objects.get(id=order_id)
 
-    total_amount = int(request.GET['quantity'] + order.quantity)
+    total_amount = int(request.GET['quantity']) + order.quantity
     
     order.quantity = total_amount
     
@@ -207,7 +225,7 @@ def remove_book(request, book_id):
     order_id = request.GET['order_id']
     order = Order.objects.get(id=order_id)
 
-    total_amount = int(order.quantity - request.GET['quantity'])
+    total_amount = order.quantity - int(request.GET['quantity'])
     
     order.quantity = total_amount
     

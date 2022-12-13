@@ -55,23 +55,23 @@
 
                 
                 <form method="GET">
-                    <div class="input-group mb-3">
+                    <div class="input-group">
+                        <div class="col-md-2"></div>
                         <div class="input-group-prepend">
-                            <button type="submit" class="btn btn-secondary" formaction="{% url 'cart:remove' order.book.id %}" style="width: 35px;">-</button>
+                            <button type="submit" class="btn btn-secondary" formaction="{% url 'cart_remove' order.book.id %}" style="width: 35px;">-</button>
                         </div>
-                        
-                        <input class="form-control" type="number" placeholder="Cantidad" size="1" name="quantity" value="1" min="1" max="255" required=true>
-                        
-                        <input type="hidden" name="division" value="{{ request.path }}">
-                        <input type="hidden" name="order_id" value="{{ order.id }}">
-                        
-
-
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-success" formaction="{% url 'cart:add' order.book.id %}" style="width: 35px;">+</button>
+                        <div class="col-md-3">
+                            <input class="form-control" type="number" placeholder="Cantidad" name="quantity" value="1" min="1" max="{{ order.book.stock }}" required=true>
+                            
+                            <input type="hidden" name="division" value="{{ request.path }}">
+                            <input type="hidden" name="order_id" value="{{ order.id }}">
                         </div>
                         <div class="input-group-append">
-                            <button type="submit" class="btn btn-success" formaction="{% url 'cart:delete' order.book.id %}" style="width: 35px;">Eliminar del pedido</button>
+                            <button type="submit" class="btn btn-success" formaction="{% url 'cart_add' order.book.id %}" style="width: 35px;">+</button>
+                        </div>
+                        <div class="col-md-2"></div>
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-success" formaction="{% url 'cart_delete' order.book.id %}">Eliminar del pedido</button>
                         </div>
                     </div>
                     <br>

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+    <form method="GET">
+        <div class="form-group">
+            <input required=true type="number" min="1" class="form-control" placeholder="Introduzca el id del pedido" name="cart_id">
+            <button type="submit" class="btn btn-success" formaction="{% url 'cartDetails' %}">Buscar</button>
+        </div>
+        <div class="col-sm-4">
+
+            <a class="btn btn-primary" type="submit" role="button">Buscar</a>
+        </div>
+    </form>
+</div>
+
+{% endblock  %}

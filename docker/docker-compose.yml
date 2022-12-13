@@ -1,0 +1,57 @@
+version: '3.4'
+
+services:
+  db:
+    restart: always
+    container_name: b00k_db
+    image: postgres:10.15-alpine
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - db:/var/lib/postgresql/data
+    networks:
+      - b00k
+
+  web:
+    restart: always
+    container_name: b00k_web
+    image: b00k_web:latest
+    build: .
+    command: ash -c "python manage.py migrate && gunicorn -w 5 b00k.wsgi --timeout=500 -b 0.0.0.0:5000"
+    expose:
+      - "5000"
+    volumes:
+      - static:/app/static
+    depends_on:
+      - db
+    networks:
+      - b00k
+  nginx:
+    restart: always
+    container_name: b00k_nginx
+    image: b00k_nginx:latest
+    build:
+        context: .
+        dockerfile: Dockerfile-nginx
+    volumes:
+      - static:/app/static
+    ports:
+      - "8000:80"
+    depends_on:
+      - web
+    networks:
+      - b00k
+
+volumes:
+  static:
+    name: b00k_static
+  db:
+    name: b00k_db
+
+networks:
+  b00k:
+    driver: bridge
+    ipam:
+     driver: default
+     config:
+       - subnet: 10.5.0.0/16

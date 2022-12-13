@@ -129,12 +129,12 @@ dmypy.json
 .pyre/
 
 # Images
-*.PNG
-*.png
-*JPG
-*.JPEG
-*jpg
-*jpeg
+#*.PNG
+#*.png
+#*JPG
+#*.JPEG
+#*jpg
+#*jpeg
 
 #Migrations por si se lia
 migrations/

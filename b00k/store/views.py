@@ -91,6 +91,28 @@ class ProductListView(TemplateView):
             raise Http404
         return context
 
+@require_GET
+def search(request,q):
+    bookOrder = request.GET.get('sortBy', 'title')
+    nProducts = request.GET.get('nProducts', 25)
+    pageNumber = request.GET.get('page', 1)
+
+    categoryList = Category.objects.order_by('name')
+    bookList = BookProduct.objects.filter(title__contains=q).order_by(bookOrder)
+    paginator = Paginator(bookList, nProducts)
+    pageObj = paginator.get_page(pageNumber)
+
+    context = {
+        'categoryList': categoryList,
+        'bookList': pageObj,
+        'pageNumber': pageNumber,
+        'nProducts': nProducts,
+        'orderBy': bookOrder,
+        'pageObj': pageObj,
+        'categoryId': None,
+    }
+
+    return render(request, 'catalog.html', context)
 class ProductDetailView(TemplateView):
     template_name = 'single.html'
     

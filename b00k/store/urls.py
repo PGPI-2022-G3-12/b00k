@@ -8,7 +8,7 @@ urlpatterns = [
     path('catalog/<int:categoryId>', views.catalogCategory, name='catalog_category'),
     # Gestión de productos
     path('<int:product_id>/', views.ProductDetailView.as_view(), name='single_product'),
-    path('search/<str:q>', views.ProductListView.as_view()),
+    path('search/<str:q>', views.search),
     #Clientes
     path('home', views.index, name='index'),
     path('clients',views.clients, name='clients'),

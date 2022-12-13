@@ -28,7 +28,7 @@
                        </div>
                        <div class="col-md-6">
                           <div class="d-flex form-inputs">
-                            <input class="form-control" type="text" placeholder="Search any product...">
+                            <input class="form-control" type="text" id="search-product" placeholder="Search any product...">
                             <i class="bx bx-search"></i>
                           </div>
                        </div>
@@ -122,5 +122,14 @@
             </footer>
           </div>
 
+          <script>
+            let input = document.getElementById('search-product');
+            input.addEventListener('keypress', function(event){
+              if(event.key === 'Enter'){
+                window.location = '/store/search/'+input.value;
+              }
+
+            })
+          </script>
     </body>
 </html>

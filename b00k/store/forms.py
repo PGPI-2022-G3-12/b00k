@@ -7,7 +7,7 @@ from django import forms
 class ClientCreationForm(UserCreationForm):
     username = forms.CharField(
 		max_length= 127,
-		min_length=10,
+		min_length=4,
 		required=True,
 		label="Usuario",
 		widget=forms.TextInput(
@@ -85,7 +85,7 @@ class ClientCreationForm(UserCreationForm):
 class ClientLoginForm(AuthenticationForm):
 	username = forms.CharField(
 		max_length= 127,
-		min_length=10,
+		min_length=4,
 		required=True,
 		label="Usuario",
 		widget=forms.TextInput(

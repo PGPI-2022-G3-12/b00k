@@ -5,18 +5,19 @@
         <h1>{{product.title}}</h1>
         <h2 class="text-secondary">{{product.author}}</h2>
         <h2 class="text-dark">{{product.editorial}}</h2>
+        <h3>Quedan {{product.stock}} unidades</h3>
 
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>Vista previa</th>
-                    <th>Sinopsis</th>
+                    <th id="vista-previa">Vista previa</th>
+                    <th id="sinopsis">Sinopsis</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <th><img src="{{BASE_URL}}/media/{{ product.picture }}" width="350"></th>
-                    <th>{{product.description}}</th>
+                    <th id="product-img"><img src="{{BASE_URL}}/media/{{ product.picture }}" width="350" alt="{{product.picture}}"></th>
+                    <th id="product-desc">{{product.description}}</th>
                 </tr>
             </tbody>
         </table>

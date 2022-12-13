@@ -241,21 +241,29 @@ def delete_book_from_order(request, book_id):
     return redirect(request.GET['division'])
 
 # Gestion de productos
-class ProductListView(TemplateView):
-    template_name = 'list.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        query:str = kwargs.get('q','')
-        try:
-            products = BookProduct.objects.filter(title__contains=query)
-            context['products'] = products
-            context['query'] = query
+@require_GET
+def search(request,q):
+    bookOrder = request.GET.get('sortBy', 'title')
+    nProducts = request.GET.get('nProducts', 25)
+    pageNumber = request.GET.get('page', 1)
 
-        except:
-            raise Http404
-        return context
+    categoryList = Category.objects.order_by('name')
+    bookList = BookProduct.objects.filter(title__contains=q).order_by(bookOrder)
+    paginator = Paginator(bookList, nProducts)
+    pageObj = paginator.get_page(pageNumber)
 
+    context = {
+        'categoryList': categoryList,
+        'bookList': pageObj,
+        'pageNumber': pageNumber,
+        'nProducts': nProducts,
+        'orderBy': bookOrder,
+        'pageObj': pageObj,
+        'categoryId': None,
+    }
+
+    return render(request, 'catalog.html', context)
 class ProductDetailView(TemplateView):
     template_name = 'single.html'
     
@@ -275,7 +283,6 @@ class ProductDetailView(TemplateView):
 def clients(request):
     return render(request,'clients.html')
 
-# Gestión de clientes
 # @require_POST
 def signup(request):
     if request.method == "POST":

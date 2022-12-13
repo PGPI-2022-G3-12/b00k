@@ -19,10 +19,6 @@
                     </li>
                 </ul>
             {% endfor %}
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-1 mb-3 mt-3">
-                <span>Precio</span>
-            </h6>
-
             </div>
         </nav>
 
@@ -64,7 +60,8 @@
                     <div class="col-sm-5">
                         <h4>{{ book.title }}</h4>
                         <h6>{{ book.author }}</h6>
-                        <p>Lorem ipsum</p>
+                        <p>{{book.description}}</p>
+                        <h7>{{ book.stock }} Unidades restantes</h7>
                     </div>
                     <div class="col-sm-2">
                         <div class="row text-center">
@@ -82,6 +79,12 @@
                                 </div>
                                 <br>
                             </form>
+                            <div class="col-sm-1 me-5">
+                                <a class="btn btn-secondary" href="{%url 'single_product' product_id=book.id %}" role="button">Ver</a>
+                            </div>
+                            <div class="col-sm-1">
+                                <a class="btn btn-primary" href="#" role="button">Añadir</a>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-8 offset-md-1"><hr></div>

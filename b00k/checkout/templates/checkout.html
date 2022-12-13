@@ -17,10 +17,10 @@
 
     <script type="text/javascript">
         var stripe = Stripe('pk_test_51MDxIOAX1suTcn4ynHJDLGWYsZNQJUBrp5NhM4djPofIEnVBkAq8Xu1dQYdYZGlERDqzLH6OW9U7z7r0RMhICrAq00gzSRrUnK');
-        var checkoutButton = document.getElementById('checkout-button');
+        var checkoutButton = document.getElementById("checkout-button");
+        
         var url = "{{ url }}";
-
-        checkoutButton.addEventListener('click', function() {
+        checkoutButton.onclick(function() {
             fetch(url, {
                 method: 'GET',
             })
@@ -39,6 +39,25 @@
                 console.error('Error:', error);
             });
         });
+        // checkoutButton.addEventListener('click', function() {
+        //     fetch(url, {
+        //         method: 'GET',
+        //     })
+        //     .then(function(response) {
+        //         return response.json();
+        //     })
+        //     .then(function(session) {
+        //         return stripe.redirectToCheckout({ sessionId: session.id });
+        //     })
+        //     .then(function(result) {
+        //         if (result.error) {
+        //             alert(result.error.message);
+        //         }
+        //     })
+        //     .catch(function(error) {
+        //         console.error('Error:', error);
+        //     });
+        // });
     </script>
 </body>
 </html>

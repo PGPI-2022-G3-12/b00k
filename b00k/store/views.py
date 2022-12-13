@@ -139,6 +139,11 @@ def cartView(request):
 
     return render(request, 'cart.html', context)
 
+def process_cart(request, cart_id):
+    cart_string_id = str(cart_id)
+    return redirect("/checkout/"+cart_string_id)
+
+
 def cartDetails(request, cart_id):
     bookOrder = request.GET.get('orderBy', 'title')
     nProducts = request.GET.get('nProducts', 25)
@@ -147,7 +152,7 @@ def cartDetails(request, cart_id):
     cart = Cart.objects.get(id=cart_id)
     bookList = BookProduct.objects.filter(order__cart__id=cart_id).order_by(bookOrder)
     
-    orderList = Order.objects.get(cart=cart)
+    orderList = Order.objects.filter(cart=cart)
     paginator = Paginator(orderList, nProducts)
     pageObj = paginator.get_page(pageNumber)
     

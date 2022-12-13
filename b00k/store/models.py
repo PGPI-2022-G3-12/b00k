@@ -54,12 +54,18 @@ class Cart(models.Model):
     books = models.ManyToManyField(BookProduct)
     totalPrice = models.DecimalField(max_digits=4,decimal_places=2, default=0.0)
 
+    CHECKOUT = 'checkout'
+    CASH = 'cash'
+
+    PAYMENT_OPTIONS = ((CHECKOUT, 'checkout'), (CASH, 'cash'))
+
     DELIVERED = 'delivered'
     EN_ROUTE = 'en_route'
     PROCESSING = 'processing'
 
     DELIVERY_STATE = ((DELIVERED, 'delivered'),(EN_ROUTE,'en_route'),(PROCESSING,'processing'))
     delivery_state = models.CharField(max_length=15, choices=DELIVERY_STATE, default=PROCESSING)
+    payment = models.CharField(max_length=15, choices=PAYMENT_OPTIONS, default=CASH)
 
 class Order(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
@@ -72,11 +78,11 @@ class Order(models.Model):
     CASH = 'cash'
 
     DELIVERY_METHODS = ((DIGITAL, 'digital'), (PHYSICAL, 'physical'))
-    PAYMENT_OPTIONS = ((CHECKOUT, 'checkout'), (CASH, 'cash'))
+    
 
 
     delivery = models.CharField(max_length=15, choices=DELIVERY_METHODS, default=DIGITAL)
-    payment = models.CharField(max_length=15, choices=PAYMENT_OPTIONS, default=CHECKOUT)
+    
 
     def get_cost(self):
         return self.book.price * self.quantity

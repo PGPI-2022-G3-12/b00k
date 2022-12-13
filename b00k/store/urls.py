@@ -8,7 +8,8 @@ urlpatterns = [
     path('catalog/<int:categoryId>', views.catalogCategory, name='catalog_category'),
     # Gestión de compras
     path('cart', views.cartView, name='cart'),
-    path('cart/<int:order_id>', views.cartDetails),
+    path('cart/process/<int:cart_id>', views.process_cart, name='process_cart'),
+    path('cart/<int:cart_id>', views.cartDetails),
     path('cart/add/<int:book_id>', views.add_book),
     path('cart/remove/<int:book_id>', views.remove_book),
     path('cart/delete/<int:book_id>', views.delete_book_from_order),

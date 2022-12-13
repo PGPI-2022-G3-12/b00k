@@ -117,6 +117,9 @@
         </li>
       {% endif %}
     </ul>
+
+    <a href="{% url 'checkout:home' %}" class="btn btn-sm btn-success">Pagar con tarjeta</a>
+    <a href="{% url 'checkout:success' %}" class="btn btn-sm btn-success">Contrareembolso</a>
 </nav>
 
 {% endblock  %}

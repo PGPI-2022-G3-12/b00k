@@ -11,7 +11,7 @@
 <body>
     <div class="container">
         <h4>Para pagar los artículos del carrito pulse el botón Pagar</h4> 
-        <button type="button" class="btn btn-secondary" id="checkout-button">Pagar</button>
+        <button type="button" class="btn btn-secondary" href="" id="checkout-button">Pagar</button>
     
     </div>
 
@@ -20,7 +20,26 @@
         var checkoutButton = document.getElementById("checkout-button");
         
         var url = "{{ url }}";
-        checkoutButton.onclick(function() {
+        // checkoutButton.onclick(function() {
+        //     fetch(url, {
+        //         method: 'POST',
+        //     })
+        //     .then(function(response) {
+        //         return response.json();
+        //     })
+        //     .then(function(session) {
+        //         return stripe.redirectToCheckout({ sessionId: session.id });
+        //     })
+        //     .then(function(result) {
+        //         if (result.error) {
+        //             alert(result.error.message);
+        //         }
+        //     })
+        //     .catch(function(error) {
+        //         console.error('Error:', error);
+        //     });
+        // });
+        checkoutButton.addEventListener('click', function() {
             fetch(url, {
                 method: 'GET',
             })
@@ -39,25 +58,6 @@
                 console.error('Error:', error);
             });
         });
-        // checkoutButton.addEventListener('click', function() {
-        //     fetch(url, {
-        //         method: 'GET',
-        //     })
-        //     .then(function(response) {
-        //         return response.json();
-        //     })
-        //     .then(function(session) {
-        //         return stripe.redirectToCheckout({ sessionId: session.id });
-        //     })
-        //     .then(function(result) {
-        //         if (result.error) {
-        //             alert(result.error.message);
-        //         }
-        //     })
-        //     .catch(function(error) {
-        //         console.error('Error:', error);
-        //     });
-        // });
     </script>
 </body>
 </html>

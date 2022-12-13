@@ -193,7 +193,9 @@ def cartDetails(request, cart_id):
 
 def add_book_from_catalog(request, book_id):
     if request.user.is_authenticated:
+        clientP = ClientProfile.objects.get(user=request.user)
         cart, _ = Cart.objects.get_or_create(client__user=request.user.id)
+        cart.client = clientP
         cart.email = request.user.email
     else:
         cart, _ = Cart.objects.get_or_create(client__user=request.user.id)

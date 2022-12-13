@@ -143,6 +143,12 @@ def process_cart(request, cart_id):
     cart_string_id = str(cart_id)
     return redirect("/checkout/"+cart_string_id)
 
+def search_cart(request):
+    return render(request, 'search.html')
+
+def redirect_cart_details(request):
+    details_id = request.GET[cart_id]
+    return redirect("/cart/"+details_id)
 
 def cartDetails(request, cart_id):
     bookOrder = request.GET.get('orderBy', 'title')

@@ -9,6 +9,8 @@ urlpatterns = [
     # Gestión de compras
     path('cart', views.cartView, name='cart'),
     path('cart/process/<int:cart_id>', views.process_cart, name='process_cart'),
+    path('cart/search', views.search_cart, name='search_cart'),
+    path('cart/redirect_cart_details', views.redirect_cart_details, name='cartDetails'),
     path('cart/<int:cart_id>', views.cartDetails),
     path('cart/add/<int:book_id>', views.add_book),
     path('cart/remove/<int:book_id>', views.remove_book),

@@ -68,11 +68,19 @@
                             <h3>{{ book.price }}€</h3>
                         </div>
                         <div class="row d-flex justify-content-center my-3">
+                            <form method="GET">
+                                <div class="input-group mb-3">
+                                    <input class="form-control" type="number" placeholder="Cantidad" size="1" name="quantity" value="1" min="1" max="{{ book.stock }}" required=true>
+                                    <input type="hidden" name="division" value="{{ request.path }}">
+                                    <!-- <input type="hidden" name="order_id" value="0"> -->
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-success" formaction="{% url 'add-book-from-catalog' book.id %}" style="width: 35px;">+</button>
+                                    </div>
+                                </div>
+                                <br>
+                            </form>
                             <div class="col-sm-1 me-5">
                                 <a class="btn btn-secondary" href="{%url 'single_product' product_id=book.id %}" role="button">Ver</a>
-                            </div>
-                            <div class="col-sm-1">
-                                <a class="btn btn-primary" href="#" role="button">Añadir</a>
                             </div>
                         </div>
                     </div>

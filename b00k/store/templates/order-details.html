@@ -46,39 +46,12 @@
                 <div class="col-sm">
                     <h3>{{ order.quantity }} Unidades</h3>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm">
                     <div class="row text-center">
                         <h3>{{ order.book.price }} €/unidad</h3>
                     </div>
                 </div>
-
-
-                
-                <form method="GET">
-                    <div class="input-group">
-                        <div class="col-md-2"></div>
-                        <div class="input-group-prepend">
-                            <button type="submit" class="btn btn-secondary" formaction="{% url 'cart_remove' order.book.id %}" style="width: 35px;">-</button>
-                        </div>
-                        <div class="col-md-3">
-                            <input class="form-control" type="number" placeholder="Cantidad" name="quantity" value="1" min="1" max="{{ order.book.stock }}" required=true>
-                            
-                            <input type="hidden" name="division" value="{{ request.path }}">
-                            <input type="hidden" name="order_id" value="{{ order.id }}">
-                        </div>
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-success" formaction="{% url 'cart_add' order.book.id %}" style="width: 35px;">+</button>
-                        </div>
-                        <div class="col-md-2"></div>
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-success" formaction="{% url 'cart_delete' order.book.id %}">Eliminar del pedido</button>
-                        </div>
-                    </div>
-                    <br>
-                </form>
-                
-
-                <!-- <div class="col-md-8 offset-md-1"><hr></div> -->
+                <div class="col-md-8 offset-md-1"><hr></div>
             </div>
         {% endfor %}
 
@@ -93,17 +66,19 @@
             </div>
         
         </div>
-
-        <div class="row justify-content-end">
+        <div class="row my-4 justify-content-space-between">
             
-            <div class="col-sm-4">
-                <a class="btn btn-primary" href="{% url 'process_cart' cart.id %}" role="button">Proceder al pago</a>
+            <div class="col-sm">
+                <h3>Estado:</h3>
+            </div>
+            
+            <div class="col-sm">
+                <h3>{{ cart.delivery_state }}</h3>
             </div>
         
         </div>
-
-        </main>
-    </div>
+    </main>
+    <!-- </div> -->
 </div>
 
 <!-- Pagination -->

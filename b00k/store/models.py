@@ -47,18 +47,40 @@ class ClientProfile(models.Model):
 
     def __str__(self):
         return "({fName} {lName}, {uName})".format(fName=self.user.first_name,lName =self.user.last_name, uName= self.user.username)
-    
-    
-# Gestión de compras
+
 class Cart(models.Model):
-    client = models.CharField(max_length=255, unique=True)
+    client = models.ForeignKey(ClientProfile, on_delete=models.CASCADE, blank=True, null=True)
+    email = models.EmailField(max_length=254, null=True)
     books = models.ManyToManyField(BookProduct)
+    totalPrice = models.DecimalField(max_digits=4,decimal_places=2, default=0.0)
+
+    CHECKOUT = 'checkout'
+    CASH = 'cash'
+
+    PAYMENT_OPTIONS = ((CHECKOUT, 'checkout'), (CASH, 'cash'))
+
+    DELIVERED = 'Entregado'
+    EN_ROUTE = 'En Camino'
+    PROCESSING = 'En Proceso'
+    PENDING_PAYMENT = 'Pendiente de pago'
+
+    DIGITAL = 'Digital'
+    PHYSICAL = 'Físico'
+    CHECKOUT = 'Pasarela de Pago'
+    CASH = 'En Efectivo'
+
+    DELIVERY_METHODS = ((DIGITAL, 'Digital'), (PHYSICAL, 'Fisico'))
+    PAYMENT_OPTIONS = ((CHECKOUT, 'Pasarela de Pago'), (CASH, 'En Efectivo'))
+    DELIVERY_STATE = ((DELIVERED, 'Entregado'), (EN_ROUTE,'En Camino'), (PROCESSING,'En Proceso'), (PENDING_PAYMENT, 'Pendiente de Pago'))
+
+    delivery = models.CharField(max_length=20, choices=DELIVERY_METHODS, default=DIGITAL)
+    payment = models.CharField(max_length=20, choices=PAYMENT_OPTIONS, default=CHECKOUT)
+    delivery_state = models.CharField(max_length=20, choices=DELIVERY_STATE, default=PENDING_PAYMENT)
+
+class Order(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    book = models.ForeignKey(BookProduct, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
     
-    def get_price(self):
-        price = self.books.aggregate(final_price=models.Sum('price'))
-        result = price["final_price"]
-        if result is None:
-            return 0.0
-        else:
-            return result
-            
+    def get_cost(self):
+        return self.book.price * self.quantity

@@ -2,18 +2,17 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from .forms import ClientCreationForm, ClientLoginForm
-# Create your views here.
-from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
+from .models import BookProduct, Cart, Order, Category, ClientProfile
 from django.core.paginator import Paginator
+from django.conf import settings
 from django.views.decorators.http import require_GET, require_POST
 from django.views.generic import TemplateView
 from django.http import Http404
 
-from .models import BookProduct, Category, ClientProfile
-
 BASE_URL = settings.BASE_URL
 
-# 
+# Visualización de productos
 @require_GET
 def index(request):
     # Escaparate
@@ -74,6 +73,172 @@ def catalogCategory(request, categoryId):
     }
 
     return render(request, 'catalog.html', context)
+
+@require_GET
+def return_policy(request):
+    return render(request, 'return-policy.html')
+
+@require_GET
+def free_delivery(request):
+    return render(request, 'free-delivery.html')
+
+@require_GET
+def terms_service(request):
+    return render(request, 'terms-service.html')
+
+@require_GET
+def privacy(request):
+    return render(request, 'privacy.html')
+
+@require_GET
+def business_data(request):
+    return render(request, 'business-data.html')
+
+# Gestión de compras
+# @login_required
+def cartView(request):
+    bookOrder = request.GET.get('orderBy', 'title')
+    nProducts = request.GET.get('nProducts', 25)
+    pageNumber = request.GET.get('page', 1)
+
+    if request.user.is_authenticated:
+        # username = request.user.username
+        clientP = ClientProfile.objects.get(user=request.user)
+        cart, _ = Cart.objects.get_or_create(client__user=request.user)
+        
+        cart.email = request.user.email
+        cart.client = clientP
+        # cart.save(force_update=True)
+    else:
+        cart, _ = Cart.objects.get_or_create(client__user__id=request.user.id)
+
+        # cart.save(force_update=True)
+    
+    bookList = BookProduct.objects.filter(order__cart=cart.id).order_by(bookOrder)
+    
+    orderList = Order.objects.filter(cart__id=cart.id)
+    paginator = Paginator(orderList, nProducts)
+    pageObj = paginator.get_page(pageNumber)
+    
+    # Solo crear Orders al añadir productos al carrito
+    # Solo calcular precio total si existen Orders en el carrito
+    if (len(orderList) != 0):
+        totalPrice = sum([order.get_cost() for order in orderList])
+    else:
+        totalPrice = 0
+
+    cart.totalPrice = totalPrice
+
+    cart.save(force_update=True)
+
+    context = {
+        'bookList': bookList,
+        'pageNumber': pageNumber,
+        'nProducts': nProducts,
+        'pageObj': pageObj,
+        'cart': cart,
+        'totalPrice': totalPrice,
+        'orderList': orderList
+    }
+
+    return render(request, 'cart.html', context)
+
+def process_cart(request, cart_id):
+    cart_string_id = str(cart_id)
+    return redirect("/checkout/"+cart_string_id)
+
+def search_cart(request):
+    return render(request, 'search.html')
+
+@csrf_exempt
+def redirect_cart_details(request):
+
+    details_id = request.GET['cart_id']
+    return redirect("/store/cart/"+details_id)
+
+def cartDetails(request, cart_id):
+    bookOrder = request.GET.get('orderBy', 'title')
+    nProducts = request.GET.get('nProducts', 25)
+    pageNumber = request.GET.get('pageNumber', 1)
+
+    cart = Cart.objects.get(id=cart_id)
+    bookList = BookProduct.objects.filter(order__cart__id=cart_id).order_by(bookOrder)
+    
+    orderList = Order.objects.filter(cart=cart.id)
+    paginator = Paginator(orderList, nProducts)
+    pageObj = paginator.get_page(pageNumber)
+    
+
+    if (len(orderList) != 0):
+        totalPrice = sum([order.get_cost() for order in orderList])
+    else:
+        totalPrice = 0
+
+    cart.totalPrice = totalPrice
+
+    cart.save()
+
+    context = {
+        'bookList': pageObj,
+        'pageNumber': pageNumber,
+        'nProducts': nProducts,
+        'orderBy': bookOrder,
+        'pageObj': pageObj,
+        'cart': cart,
+        'totalPrice': totalPrice,
+        'orderList': orderList
+    }
+
+    return render(request, 'order-details.html', context)
+
+def add_book_from_catalog(request, book_id):
+    if request.user.is_authenticated:
+        cart, _ = Cart.objects.get_or_create(client__user=request.user.id)
+        cart.email = request.user.email
+    else:
+        cart, _ = Cart.objects.get_or_create(client__user=request.user.id)
+
+    order, _ = Order.objects.get_or_create(cart=cart, book_id=book_id)
+    
+
+    book_id_string = str(book_id)
+    order_id_string = str(order.id)
+    contenido_get = '?order_id=' + order_id_string
+    string_to_add = '&'
+    for k,v in request.GET.items():
+        contenido_get += string_to_add + k + "=" + str(v)
+    return redirect("/store/cart/add/" + book_id_string + contenido_get)
+
+
+def add_book(request, book_id):
+    order_id = request.GET['order_id']
+    order = Order.objects.get(id=order_id)
+
+    total_amount = int(request.GET['quantity']) + order.quantity
+    
+    order.quantity = total_amount
+    
+    order.save()
+    return redirect(request.GET['division'])
+
+def remove_book(request, book_id):
+    order_id = request.GET['order_id']
+    order = Order.objects.get(id=order_id)
+
+    total_amount = order.quantity - int(request.GET['quantity'])
+    
+    order.quantity = total_amount
+    
+    order.save()
+    return redirect(request.GET['division'])
+
+
+def delete_book_from_order(request, book_id):
+    order_id = request.GET['order_id']
+    order = Order.objects.get(id=order_id)
+
+    order.delete()
+    return redirect(request.GET['division'])
 
 # Gestion de productos
 
@@ -157,4 +322,3 @@ def signin(request):
 def ourlogout(request):
     logout(request)
     return redirect('index')
-

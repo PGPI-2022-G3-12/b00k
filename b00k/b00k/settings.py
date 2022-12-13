@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'store.apps.StoreConfig',
+    'checkout',
 ]
 
 MIDDLEWARE = [
@@ -135,3 +136,7 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+STRIPE_PUBLISHABLE_KEY = 'pk_test_51MDxIOAX1suTcn4ynHJDLGWYsZNQJUBrp5NhM4djPofIEnVBkAq8Xu1dQYdYZGlERDqzLH6OW9U7z7r0RMhICrAq00gzSRrUnKpk_test_51MDxIOAX1suTcn4ynHJDLGWYsZNQJUBrp5NhM4djPofIEnVBkAq8Xu1dQYdYZGlERDqzLH6OW9U7z7r0RMhICrAq00gzSRrUnK'
+STRIPE_SECRET_KEY = 'sk_test_51MDxIOAX1suTcn4y9hiqEFlpv7hnFSbDbOphjFPxuKjPBPEHtkPna6N08cJ0GkyjXWAXoVW2dXoS6KKdIRKulkHX00CLrgn1Mk'

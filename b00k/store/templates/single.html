@@ -21,12 +21,24 @@
                 </tr>
             </tbody>
         </table>
-        <h3>{{product.price}} €</h3>
-        <div class="form-inline " style="width: 22rem;">
-            <label class="form-label" for="typeNumber">Cantidad:</label>
-            <input value="1" max="{{product.stock}}" type="number" id="typeNumber"class="form-control-inline" />
+        
+        <div class="col-sm-2">
+            <div class="row text-center">
+                <h3>{{ product.price }}€</h3>
+            </div>
+            <div class="row d-flex justify-content-center my-3">
+                <form method="GET">
+                    <div class="input-group mb-3">
+                        <input class="form-control" type="number" placeholder="Cantidad" size="1" name="quantity" value="1" min="1" max="{{ product.stock }}" required=true>
+                        <input type="hidden" name="division" value="{{ request.path }}">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-success" formaction="{% url 'add-book-from-catalog' product.id %}" style="width: 35px;">+</button>
+                        </div>
+                    </div>
+                    <br>
+                </form>
+            </div>
         </div>
-        <button type="button" class="btn btn-secondary">A&ntildeadir al carrito</button>
 
     </div>
 {% endblock %}

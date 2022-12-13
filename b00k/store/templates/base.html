@@ -37,7 +37,8 @@
                        <div class="col-md-2">
                            <div class="d-flex d-none d-md-flex flex-row align-items-center">
                                <span class="shop-bag"><i class='bx bxs-shopping-bag'></i></span>
-                               <img  class="d-none d-md-flex" src="{% static 'shopping-bag.png' %}" alt="Logo" width="40">
+                               <a href="{% url 'cart' %}">
+                              <img  class="d-none d-md-flex" src="{% static 'shopping-bag.png' %}" alt="Logo" width="40"></a>
                                {% if user.is_authenticated %}
                                <div class="col-sm-1 mx-5">
                                  <a class="btn btn-primary" href="{% url 'logout' %}" role="button">Salir</a>

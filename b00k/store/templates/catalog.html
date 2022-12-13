@@ -55,7 +55,7 @@
             {% for book in bookList %}
                 <div class="row my-4">
                     <div class="col-sm-1 offset-md-1">
-                        <img class="img-fluid" src="{% static 'book-placeholder.svg' %}" alt="{{ book.title }}" style="width: 80%;">
+                        <img class="img-fluid" src="{{BASE_URL}}/media/{{ book.picture }}" alt="{{ book.title }}" >
                     </div>
                     <div class="col-sm-5">
                         <h4>{{ book.title }}</h4>

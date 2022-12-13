@@ -12,7 +12,7 @@
             <tbody>
                 {% for product in products %}
                 <tr>
-                    <th><img src="product.image"></th>
+                    <th><img src="{{BASE_URL}}/media/{{ product.picture }}" width="350"></th>
                     <th><a href="{%url 'single_product' product_id=product.id %}">{{product.title}}</a></th>
                 </tr>
                 {% endfor %}
